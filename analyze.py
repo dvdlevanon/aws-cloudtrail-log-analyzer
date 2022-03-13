@@ -32,13 +32,15 @@ def analyze_file(json_file):
 			else:
 				add(eventName, '{}\t{}\t{}'.format(record['eventTime'], record['sourceIPAddress'], params['key']))
 
-def print_summary():
-	for verb in objects:
-		print('{} - {}'.format(verb, len(objects[verb])))
+def print_summary(report_dir):
+	with open('{}/summary.txt'.format(report_dir), 'w') as file:
+		for verb in objects:
+			file.write('{} - {}\n'.format(verb, len(objects[verb])))
+			print('{} - {}'.format(verb, len(objects[verb])))
 
-def write_result_files():
+def write_result_files(report_dir):
 	for verb in objects:
-		with open('{}-list.txt'.format(verb), 'w') as file:
+		with open('{}/{}-list.txt'.format(report_dir, verb), 'w') as file:
 			files = objects[verb]
 			files.sort()
 			for obj in files:
@@ -48,5 +50,6 @@ for log_file in glob.glob(sys.argv[1] + '/**/*.json', recursive=True):
 	print('Analyzing {}'.format(log_file))
 	analyze_file(log_file)
 
-print_summary()
-write_result_files()
+report_dir = sys.argv[2]
+print_summary(report_dir)
+write_result_files(report_dir)
