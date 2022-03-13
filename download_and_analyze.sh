@@ -5,5 +5,5 @@
 export S3_LOCATION=s3://$1
 export DOWNLOAD_DIRECTORY=cloudtrail-log
 
-# ./download.sh || exit 1
+./download.sh || exit 1
 ./analyze.py "$DOWNLOAD_DIRECTORY" || exit 1
